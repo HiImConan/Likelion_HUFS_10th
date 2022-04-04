@@ -1,0 +1,11 @@
+.login-container {
+  position: relative;
+  margin: 40px auto;
+  max-width: 380px;
+  min-height: 500px;
+  padding: 59px 69px 49px;
+}
+.login-container__title {
+  display: block;
+  margin-bottom: 30px;
+}

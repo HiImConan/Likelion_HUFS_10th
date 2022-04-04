@@ -1,0 +1,64 @@
+.login-form__field {
+  min-width: 0;
+  max-width: 100%;
+  width: 100%;
+  display: block;
+}
+
+.login-form input {
+  border: none;
+  width: 100%;
+  padding: 10px 0px;
+  margin-bottom: 5px;
+  background: transparent;
+}
+
+.login-form input:not([type="submit"]) {
+  border-bottom: 3px solid rgba(255, 255, 255, 0.6);
+}
+
+.info_tip {
+  display: none;
+}
+input#id-field:focus .info_tip {
+  display: block; /*구현하고 싶은데 css만으로 어케 함 ㅜ*/
+}
+
+.login-form input::placeholder {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.login-form input:focus {
+  border-bottom: 3px solid rgba(255, 255, 255, 1);
+}
+
+.login-state {
+  margin: 15px auto;
+}
+
+.login-state__container {
+  display: flex;
+  align-items: center;
+}
+.checkbox_btn {
+  display: flex;
+  align-items: center;
+  font-size: 14.5px;
+}
+
+label.checkbox_btn::before {
+  content: "\f058";
+  color: white;
+  cursor: pointer;
+  margin: 0;
+  margin-right: 10px;
+  font-size: 18px;
+  font-family: "Font Awesome 5 Free";
+}
+input#staySignedIn:checked + label.checkbox_btn::before {
+  content: "\f058";
+  color: var(--yellow);
+}
+input#staySignedIn {
+  display: none;
+}

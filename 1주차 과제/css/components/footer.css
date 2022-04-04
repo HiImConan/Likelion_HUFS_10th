@@ -1,0 +1,58 @@
+#kakaoFoot {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding-bottom: 20px;
+  text-align: center;
+  margin: 0 auto;
+}
+
+.foot_info {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.link_info {
+  color: #fff;
+  display: inline-block;
+  padding: 0 10px;
+  font-size: 12px;
+  line-height: 20px;
+}
+.link_policy {
+  font-family: NotoSans-Bold, sans-serif;
+  font-weight: 800;
+}
+
+select {
+  writing-mode: horizontal-tb !important;
+  font-size: 12px;
+  line-height: normal;
+  display: inline-block;
+  text-align: start;
+  appearance: auto;
+  box-sizing: border-box;
+  align-items: center;
+  background-color: transparent;
+  cursor: default;
+  border: none;
+  line-height: 1.5;
+  font-family: NotoSans-Regular, AppleSDGothicNeo-Regular, "맑은 고딕",
+    Malgun Gothic, "돋움", dotum, sans-serif;
+  color: #fff;
+  letter-spacing: -0.03em;
+  word-wrap: break-word;
+  margin: 0 10px;
+}
+
+.txt_copyright {
+  display: block;
+  margin-top: 8px;
+  font-size: 12px;
+  line-height: 18px;
+  letter-spacing: 0;
+}
+.link_kakao {
+  font-weight: 800;
+}

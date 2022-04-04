@@ -1,0 +1,27 @@
+.kakaoWrap {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 50px 0px;
+  height: 100%;
+}
+
+.bg_img {
+  overflow: hidden;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: -1;
+}
+
+.background {
+  position: absolute;
+  width: 100vw;
+  height: auto;
+  object-fit: cover;
+  left: 0;
+  top: -123.182px;
+}

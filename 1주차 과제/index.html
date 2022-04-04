@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="css/styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css"
+    />
+
+    <title>카카오계정</title>
+  </head>
+  <body>
+    <div class="kakaoWrap">
+      <div class="bg_img">
+        <img
+          class="background"
+          src="./디자인 요소/login_img/bg_img/login_bg_04.jpeg"
+        />
+      </div>
+
+      <div id="screen-header">
+        <img height="30" alt="kakao" src="./디자인 요소/로고.png" />
+      </div>
+      <!-- kakaoHead -->
+
+      <div class="login-page">
+        <div class="login-container">
+          <div class="login-container__title">
+            <img
+              src="./디자인 요소/login_img/txt_img/login_txt01.png"
+              height="93"
+              alt="가장 쉬운 기부 같이가치"
+            />
+          </div>
+
+          <div class="login-area">
+            <form class="login-form">
+              <fieldset class="login-form__field">
+                <div class="login-form__field-email">
+                  <div class="login_email-placeholder">
+                    <input
+                      type="text"
+                      name="email"
+                      id="id-field"
+                      placeholder="카카오메일 아이디, 이메일, 전화번호"
+                    />
+                  </div>
+                  <p class="info_tip">
+                    <span class="txt_tip">TIP</span>
+                    카카오메일이 있다면 메일 아이디만 입력해 보세요.
+                  </p>
+                </div>
+                <div class="login_password-placeholder">
+                  <input
+                    type="password"
+                    name="password"
+                    placeholder="비밀번호"
+                  />
+                </div>
+                <div class="login-state">
+                  <div class="login-state__container">
+                    <input
+                      type="checkbox"
+                      id="staySignedIn"
+                      name="stay_signed_in"
+                      value="true"
+                    />
+                    <label for="staySignedIn" class="checkbox_btn">
+                      <span class="text_check">로그인 상태 유지</span>
+                    </label>
+                  </div>
+                </div>
+                <div class="wrap_btn">
+                  <button class="btn_login btn_confirm" type="button">
+                    로그인
+                  </button>
+                  <span class="line_or">
+                    <span class="text_or">또는</span>
+                  </span>
+                  <button id="move_to_qr" class="btn_login" type="button">
+                    <span class="icon_qr">
+                      <img
+                        src="./디자인 요소/QR코드 이미지.png"
+                        height="15px"
+                      />
+                    </span>
+                    QR코드 로그인
+                  </button>
+                </div>
+              </fieldset>
+            </form>
+            <div class="info_user">
+              <a href="#" class="link_join">회원가입</a>
+              <ul class="list_user">
+                <li>
+                  <a href="#" class="link_user">카카오계정</a>
+                </li>
+                <li>
+                  <a href="#" class="link_user">비밀번호 찾기</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="kakaoFoot" class="footer">
+        <div class="foot_info">
+          <a href="#" class="link_info">이용약관</a>
+          <a href="#" class="link_info link_policy">개인정보 처리방침</a>
+          <a href="#" class="link_info">운영정책</a>
+          <a href="#" class="link_info">고객센터</a>
+          <a href="#" class="link_info">공지사항</a>
+          <select name="lang" class="lang_list">
+            <option href="#" value="1" class="lang_link" selected>
+              한국어
+            </option>
+            <option href="#" value="2" class="lang_link">English</option>
+            <option href="#" value="3" class="lang_link">日本語</option>
+          </select>
+        </div>
+        <div class="txt_copyright">
+          Copyright ©
+          <a href="#" class="link_kakao">Kakao Corp.</a>
+          All rights reserved.
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

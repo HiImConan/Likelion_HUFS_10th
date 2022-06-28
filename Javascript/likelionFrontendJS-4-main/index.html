@@ -12,6 +12,12 @@
     />
     <link rel="stylesheet" href="./css/style.css" />
     <title>개발자 유형 테스트</title>
+    <!-- 카카오 공유하기 -->
+    <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+    <script>
+      Kakao.init("1adbd278f9b413b8cefef36eb5d788af");
+      Kakao.isInitialized();
+    </script>
   </head>
   <body>
     <section id="main" class="my-5 py-5 px-4 mx-auto">
@@ -29,8 +35,74 @@
         시작하기
       </button>
     </section>
-    <section id="qna">qna 페이지입니다.</section>
-    <section id="result">result 페이지입니다.</section>
+    <section id="qna">
+      <div class="status mx-auto mt-5">
+        <div class="countStatus"></div>
+        <div class="statusBar"></div>
+      </div>
+      <div class="qBox my-5 py-5 mx-auto"></div>
+      <div class="aBox"></div>
+    </section>
+    <section id="result" class="mx-auto my-5 py-5 px-4">
+      <h2 class="jalan">나의 결과는 ?!</h2>
+      <div class="Gmarket">
+        <div class="resultIntro"></div>
+        <div class="resultName"></div>
+      </div>
+      <div
+        id="resultImg"
+        class="my-3 col-lg-6 col-md-8 col-sm-10 mx-auto"
+      ></div>
+      <div class="resultDesc">
+        <div class="resultDescTitle1"></div>
+        <div class="resultDesc1"></div>
+        <div class="resultDescTitle2"></div>
+        <div class="resultDesc2"></div>
+      </div>
+      <div>
+        <a href="javascript:setShare()"
+          ><img
+            src="./img/icon-kakao.png"
+            title="카카오톡"
+            class="'sharebtn_custom"
+        /></a>
+      </div>
+    </section>
     <script src="./js/mbti.js"></script>
+    <script src="./js/data.js"></script>
+    <script type="text/javascript">
+      function setShare() {
+        var resultImg = document.querySelector("#resultImg");
+        var resultAlt = resultImg.firstElementChild.alt;
+        const shareTitle =
+          "나의 개발자 유형은 무엇일까? 나의 개발자 유형을 확인해보고 공유해보자!!";
+        const shareDes = infoList[resultAlt].name;
+
+        const shareImage =
+          "https://likeliondevtest.netlify.app/" + "img/title_img.png";
+        const shareURL = "https://likeliondevtest.netlify.app/";
+        Kakao.Link.sendDefault({
+          objectType: "feed",
+          content: {
+            title: shareDes,
+            description: shareTitle,
+            imageUrl: shareImage,
+            link: {
+              mobileWebUrl: shareURL,
+              webUrl: shareURL,
+            },
+          },
+          buttons: [
+            {
+              title: "결과 확인하기",
+              link: {
+                mobileWebUrl: shareURL,
+                webUrl: shareURL,
+              },
+            },
+          ],
+        });
+      }
+    </script>
   </body>
 </html>

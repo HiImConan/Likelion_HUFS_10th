@@ -6,7 +6,7 @@ const Menubar = () => {
     <div>
       <ul>
         <l1>
-          <Link to="/home">Home</Link>
+          <Link to="/">Home</Link>
         </l1>
         <li>
           <Link to="/movies">Movies</Link>

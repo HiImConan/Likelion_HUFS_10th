@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo, useRef } from "react";
 import { useParams } from "react-router-dom";
 import {
   LoadingDiv,
@@ -35,46 +35,11 @@ const replData = [
     contents: `그럴수도 있나?? 내가 생각해도 그건 아니다`,
   },
 ];
-const ShowPost = (props) => {
-  // const Params = useParams();
-  const [post, setPost] = useState(null);
-  const [repls, setRepls] = useState([]);
-  const [postLoading, setPostLoading] = useState(true);
-  const [replLoading, setReplLoading] = useState(true);
 
-  useEffect(() => {
-    setTimeout(() => {
-      setPost(postData);
-      setPostLoading(false);
-    }, 300);
-  }, []);
-  useEffect(() => {
-    setTimeout(() => {
-      setRepls(replData);
-      setReplLoading(false);
-    }, 1000);
-  }, []);
-
-  const [repl, setRepl] = useState("");
-
-  const onChange = (e) => {
-    setRepl(e.target.value);
-  };
-
-  const countRepls = (repls) => {
-    console.log("리뷰 개수를 세는 중...");
-    return repls.length;
-  };
-
-  // for useMemo
-  const replCount = useMemo(() => countRepls(repls), [repls]);
-
-  /*if (!Params.postID) {
-    return <PostSection>잘못된 접근입니다.</PostSection>;
-  }*/
-  return (
-    <div>
-      <PostSection>
+const PostAndRepl = React.memo(
+  ({ post, postLoading, replCount, replLoading, repls }) => {
+    return (
+      <>
         <PostTitleDiv>
           <PostTitle>{post && post.title}</PostTitle>
         </PostTitleDiv>
@@ -103,9 +68,72 @@ const ShowPost = (props) => {
             </PostReplDiv>
           ))
         )}
+      </>
+    );
+  }
+);
 
+const ShowPost = (props) => {
+  // const Params = useParams();
+  const [post, setPost] = useState(null);
+  const [repls, setRepls] = useState([]);
+  const [postLoading, setPostLoading] = useState(true);
+  const [replLoading, setReplLoading] = useState(true);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setPost(postData);
+      setPostLoading(false);
+      // replInput.current.focus(); useEffect안에 한꺼번에 합쳐도 됨.
+    }, 300);
+  }, []);
+  useEffect(() => {
+    setTimeout(() => {
+      setRepls(replData);
+      setReplLoading(false);
+    }, 1000);
+  }, []);
+
+  const [repl, setRepl] = useState("");
+
+  const onChange = (e) => {
+    setRepl(e.target.value);
+  };
+
+  const countRepls = (repls) => {
+    console.log("리뷰 개수를 세는 중...");
+    return repls.length;
+  };
+
+  // for useMemo
+  const replCount = useMemo(() => countRepls(repls), [repls]);
+
+  // first cursor on page using useRef()
+  const replInput = useRef();
+
+  useEffect(() => {
+    replInput.current.focus();
+  }, []);
+
+  /*if (!Params.postID) {
+    return <PostSection>잘못된 접근입니다.</PostSection>;
+  }*/
+  return (
+    <div>
+      <PostSection>
+        <PostAndRepl
+          post={post}
+          postLoading={postLoading}
+          replCount={replCount}
+          replLoading={replLoading}
+          repls={repls}
+        />
         <WritereplDiv>
-          <ReplInput onChange={onChange} value={repl}></ReplInput>
+          <ReplInput
+            onChange={onChange}
+            value={repl}
+            ref={replInput}
+          ></ReplInput>
           <ReplSubmitDiv>
             <span>입력</span>
           </ReplSubmitDiv>

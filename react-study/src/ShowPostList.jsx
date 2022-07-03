@@ -20,7 +20,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import EachPost from "./EachPost";
-import { React, useState, useEffect } from "react";
+import { React, useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 
 const initialPostList = [
@@ -34,12 +34,13 @@ function ShowPostList() {
   const [isPost, setIsPost] = useState(false);
   const [postList, setPostList] = useState([]);
 
-  const addPost = () => {
+  // postList가 최신화될 때만 memorize했던 콜백함수 최신화.
+  const addPost = useCallback(() => {
     setPostList((postList) => [
       ...postList,
       { id: 4, title: "학보, 시사N 대학기자상 취재" },
     ]);
-  };
+  }, [postList]);
 
   const navigate = useNavigate();
   const goWrite = () => {

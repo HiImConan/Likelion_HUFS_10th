@@ -22,17 +22,16 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import EachPost from "./EachPost";
 import { React, useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
-const initialPostList = [
-  { id: 1, title: "학보, 시사N 대학기자상 취재" },
-  { id: 2, title: "학보, 시사N 대학기자상 취재" },
-  { id: 3, title: "학보, 시사N 대학기자상 취재" },
-];
-
-function ShowPostList() {
+function ShowPostList({ apiUrl }) {
   const [loading, setLoading] = useState(true);
   const [isPost, setIsPost] = useState(false);
   const [postList, setPostList] = useState([]);
+  const [page, setPage] = useState(1);
+  const [pages, setPages] = useState([]);
+  const [isFinalPage, setIsFinalPage] = useState();
+  const [isFirstPage, setIsFirstPage] = useState();
 
   // postList가 최신화될 때만 memorize했던 콜백함수 최신화.
   const addPost = useCallback(() => {
@@ -48,11 +47,24 @@ function ShowPostList() {
   };
 
   useEffect(() => {
-    setTimeout(() => {
-      setPostList(initialPostList);
+    axios.get(`${apiUrl}list/?page=${page}&page_size=10`).then((response) => {
+      console.log(response.data);
+
+      // 실제 api data 안에 담긴 페이지 수만큼 보이게 하는 작업
+      const lastPage = Math.ceil(response.data.count / 10); // data.count를 10으로 나누고 올림하면 마지막 페이지 수
+      const tempPages = []; // setPages에 들어갈 배열 껍데기
+      for (let i = 1; i <= lastPage; i++) {
+        tempPages.push(i); // map함수를 사용해 껍데기 배열에 숫자 차례대로 푸쉬
+      }
+      setPages(tempPages); // update pages state
+
+      setPostList(response.data.results);
       setLoading(false);
-    }, 600);
-  }, []);
+
+      setIsFinalPage(response.data.next);
+      setIsFirstPage(response.data.previous);
+    });
+  }, [page]); // 사용자가 선택하는 페이지가 달라질 때마다 바뀌게 함
 
   return (
     <>
@@ -85,13 +97,35 @@ function ShowPostList() {
         </PostListDiv>
       </PostSection>
       <PagingSection>
-        <PagenumberDiv>
-          <FontAwesomeIcon icon={faArrowLeft} />
-        </PagenumberDiv>
-        <PagenumberDiv>2</PagenumberDiv>
-        <PagenumberDiv>
-          <FontAwesomeIcon icon={faArrowRight} />
-        </PagenumberDiv>
+        {isFirstPage ? (
+          <PagenumberDiv
+            onClick={() => {
+              if (page > 1) setPage(page - 1);
+            }}
+          >
+            <FontAwesomeIcon icon={faArrowLeft} />
+          </PagenumberDiv>
+        ) : (
+          ""
+        )}
+
+        {pages.map((pageNum) => (
+          <PagenumberDiv key={pageNum} onClick={() => setPage(pageNum)}>
+            {pageNum}
+          </PagenumberDiv>
+        ))}
+
+        {isFinalPage ? (
+          <PagenumberDiv
+            onClick={() => {
+              if (pages.length > page) setPage(page + 1);
+            }}
+          >
+            <FontAwesomeIcon icon={faArrowRight} />
+          </PagenumberDiv>
+        ) : (
+          ""
+        )}
       </PagingSection>
     </>
   );

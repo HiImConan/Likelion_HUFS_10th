@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useMemo, useRef } from "react";
 import { useParams } from "react-router-dom";
+import axios from "axios";
 import {
   LoadingDiv,
   LoadingImg,
@@ -73,28 +74,26 @@ const PostAndRepl = React.memo(
   }
 );
 
-const ShowPost = (props) => {
-  // const Params = useParams();
+const ShowPost = ({ apiUrl }) => {
+  const Params = useParams();
   const [post, setPost] = useState(null);
+  const [repl, setRepl] = useState("");
   const [repls, setRepls] = useState([]);
   const [postLoading, setPostLoading] = useState(true);
   const [replLoading, setReplLoading] = useState(true);
 
-  useEffect(() => {
-    setTimeout(() => {
-      setPost(postData);
-      setPostLoading(false);
-      // replInput.current.focus(); useEffect안에 한꺼번에 합쳐도 됨.
-    }, 300);
-  }, []);
-  useEffect(() => {
-    setTimeout(() => {
-      setRepls(replData);
-      setReplLoading(false);
-    }, 1000);
-  }, []);
+  // first cursor on page using useRef()
+  const replInput = useRef();
 
-  const [repl, setRepl] = useState("");
+  useEffect(() => {
+    axios.get(`${apiUrl}posts/${Params.postID}`).then((response) => {
+      setPost(response.data);
+      setPostLoading(false);
+      setRepls(response.data.repls);
+      setReplLoading(false);
+      replInput.current.focus();
+    });
+  }, []);
 
   const onChange = (e) => {
     setRepl(e.target.value);
@@ -108,16 +107,9 @@ const ShowPost = (props) => {
   // for useMemo
   const replCount = useMemo(() => countRepls(repls), [repls]);
 
-  // first cursor on page using useRef()
-  const replInput = useRef();
-
-  useEffect(() => {
-    replInput.current.focus();
-  }, []);
-
-  /*if (!Params.postID) {
+  if (!Params.postID) {
     return <PostSection>잘못된 접근입니다.</PostSection>;
-  }*/
+  }
   return (
     <div>
       <PostSection>

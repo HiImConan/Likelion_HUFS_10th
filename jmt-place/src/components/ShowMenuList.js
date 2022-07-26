@@ -2,7 +2,7 @@ import axios from "axios";
 import { useState, useEffect, useCallback } from "react";
 
 import EachMenu from "./EachMenu";
-import Loading from "../components/Loading";
+import Loading from "./Loading";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -11,7 +11,9 @@ import {
   faArrowsRotate,
 } from "@fortawesome/free-solid-svg-icons";
 
-const ShowMenuList = () => {
+const API_URL = "https://72ed957c-6ff1-40d0-b1f8-8c268eaca41e.mock.pstmn.io";
+
+const ShowMenuList = ({ category }) => {
   const [loading, setLoading] = useState(true);
   const [menuList, setMenuList] = useState([]);
   const [nowPage, setNowPage] = useState(1);
@@ -19,29 +21,28 @@ const ShowMenuList = () => {
   const [isFinalPage, setIsFinalPage] = useState();
   const [isFirstPage, setIsFirstPage] = useState();
 
+  console.log(menuList);
+
   const getMenuList = useCallback(() => {
     setLoading(true);
-    axios
-      .get("https://a02a6001-2421-4884-bdf5-0253413f4bb8.mock.pstmn.io/all")
-      .then((response) => {
-        const lastPage = Math.ceil(response.data.count / 8);
-        const pagesArr = [];
-        for (let i = 1; i <= lastPage; i++) {
-          pagesArr.push(i);
-        }
-        setPages(pagesArr); // update pages state
+    axios.get(`${API_URL}/${category}`).then((response) => {
+      console.log(response);
+      const lastPage = Math.ceil(response.data.length / 8);
+      const pagesArr = [];
+      for (let i = 1; i <= lastPage; i++) {
+        pagesArr.push(i);
+      }
+      setPages(pagesArr); // update pages state
 
-        setMenuList(response.data.results);
-        setLoading(false);
-
-        // 뒤로 가기 / 앞으로 가기 버튼 위한 상태 관리
-        setIsFinalPage(response.data.next);
-        setIsFirstPage(response.data.previous);
-      });
-  }, [setLoading, setPages, setMenuList, setIsFinalPage, setIsFirstPage]);
+      let dividedList = [];
+      console.log(response.data.length);
+      setMenuList(response.data);
+      setLoading(false);
+    });
+  }, [setLoading, setPages, setMenuList]);
 
   // 사용자가 선택하는 페이지가 달라질 때마다 바뀌게 함
-  useEffect(getMenuList, [nowPage]);
+  useEffect(getMenuList, []);
 
   return (
     <>
@@ -54,14 +55,18 @@ const ShowMenuList = () => {
             <div>
               <Loading type="spokes" color="blue" />
             </div>
-          ) : menuList.length === 0 ? (
-            <div>등록된 맛집이 없습니다.</div>
-          ) : (
+          ) : menuList ? (
             <ul>
               {menuList.map((menu) => (
-                <EachMenu key={menu.id} title={menu.title} postID={menu.id} />
+                <EachMenu
+                  id={menu.id}
+                  name={menu.name}
+                  category={menu.category}
+                />
               ))}
             </ul>
+          ) : (
+            <div>등록된 맛집이 없습니다.</div>
           )}
         </div>
       </div>

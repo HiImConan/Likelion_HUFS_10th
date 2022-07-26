@@ -1,31 +1,38 @@
 import React from "react";
 import { Outlet, useNavigate, NavLink } from "react-router-dom";
+import styled from "styled-components";
+
+const NavUl = styled.ul`
+  display: flex;
+  justify-content: center;
+  width: 100%;
+`;
 
 const Layout = () => {
   const categories = [
     {
       id: "전체",
-      path: "all",
+      path: "",
     },
     {
       id: "한식",
-      path: "korean",
+      path: "kr",
     },
     {
       id: "중식",
-      path: "chinese",
+      path: "cn",
     },
     {
       id: "일식",
-      path: "japanese",
+      path: "jp",
     },
     {
       id: "양식",
-      path: "western",
+      path: "west",
     },
     {
       id: "카페",
-      path: "cafe",
+      path: "coffee",
     },
     {
       id: "마이페이지",
@@ -43,22 +50,23 @@ const Layout = () => {
     <>
       <header>
         <button onClick={goBack}>⬅️</button>
-        <ul>
-          {categories.map((category) => (
+        <NavUl>
+          {categories.map((element) => (
             <NavLink
-              to={`/${category.path}`}
-              key={category.id}
+              to={`/${element.path}`}
+              key={element.id}
               style={({ isActive }) => {
                 return {
                   textDecoration: "none",
+                  margin: "1rem",
                   color: isActive ? "blue" : "",
                 };
               }}
             >
-              {category.id}
+              {element.id}
             </NavLink>
           ))}
-        </ul>
+        </NavUl>
       </header>
       <hr></hr>
       <main>

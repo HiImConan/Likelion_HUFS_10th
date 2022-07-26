@@ -1,6 +1,7 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
-import Main from "../routes/ShowMenuList";
+import ShowMenuList from "./ShowMenuList";
+import All from "../routes/All";
 import Korean from "../routes/Korean";
 import Japanese from "../routes/Japanese";
 import Chinese from "../routes/Chinese";
@@ -14,7 +15,7 @@ const Router = () => {
   return (
     <Routes>
       <Route path="/" element={<Layout />}>
-        <Route path="/all" element={<Main />} />
+        <Route index element={<All />} />
         <Route path="/korean" element={<Korean />} />
         <Route path="/japanese" element={<Japanese />} />
         <Route path="/chinese" element={<Chinese />} />

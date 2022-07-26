@@ -1,9 +1,11 @@
 import React from "react";
 import styled from "styled-components";
+import { Image } from "../assets/Image";
 
 const MenuWrapper = styled.div`
   display: flex;
   justify-content: center;
+  align-item: center;
 `;
 
 const MenuIcon = styled.div`
@@ -29,26 +31,26 @@ const MenuCategory = styled.div`
 `;
 
 const EachMenu = ({ id, name, category }) => {
-  function whatKindThisFood(category) {
+  function whatKindOfThisFoodIs(category) {
     switch (category) {
       case "kr":
-        return "rice";
+        return Image.kr;
       case "cn":
-        return "buns";
+        return Image.cn;
       case "jp":
-        return "sushi";
+        return Image.jp;
       case "west":
-        return "burger";
+        return Image.west;
       case "coffee":
-        return "coffee";
+        return Image.coffee;
       default:
-        return "restaurant";
+        return Image.def;
     }
   }
   return (
     <MenuWrapper>
       <MenuIcon>
-        <img src={`../img/${whatKindThisFood}.png`} alt="Icon" />
+        <img src={`${whatKindOfThisFoodIs}`} alt="Icon" />
       </MenuIcon>
       <MenuInfo>
         <MenuName>{name}</MenuName>

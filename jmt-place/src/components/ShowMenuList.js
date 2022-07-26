@@ -1,15 +1,12 @@
 import axios from "axios";
 import { useState, useEffect, useCallback } from "react";
+import { useParams } from "react-router-dom";
 
 import EachMenu from "./EachMenu";
 import Loading from "./Loading";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faArrowLeft,
-  faArrowRight,
-  faArrowsRotate,
-} from "@fortawesome/free-solid-svg-icons";
+import { faArrowsRotate } from "@fortawesome/free-solid-svg-icons";
 
 const API_URL = "https://72ed957c-6ff1-40d0-b1f8-8c268eaca41e.mock.pstmn.io";
 
@@ -17,32 +14,46 @@ const ShowMenuList = ({ category }) => {
   const [loading, setLoading] = useState(true);
   const [menuList, setMenuList] = useState([]);
   const [nowPage, setNowPage] = useState(1);
+  const [menuPage, setMenuPage] = useState([]);
   const [pages, setPages] = useState([]);
-  const [isFinalPage, setIsFinalPage] = useState();
-  const [isFirstPage, setIsFirstPage] = useState();
 
-  console.log(menuList);
+  const { id } = useParams();
 
   const getMenuList = useCallback(() => {
-    setLoading(true);
-    axios.get(`${API_URL}/${category}`).then((response) => {
-      console.log(response);
-      const lastPage = Math.ceil(response.data.length / 8);
-      const pagesArr = [];
-      for (let i = 1; i <= lastPage; i++) {
-        pagesArr.push(i);
+    const fetchMenus = async () => {
+      setLoading(true);
+      try {
+        const res = await axios.get(`${API_URL}/${category}`);
+
+        const lastPage = Math.ceil(res.data.length / 8);
+        const pagesArr = [];
+        for (let i = 1; i <= lastPage; i++) {
+          pagesArr.push(i);
+        }
+        setPages(pagesArr); // update 'pages' state
+
+        let dividedList = [];
+        for (let i = 0; i < res.data.length; i += 8) {
+          dividedList.push(res.data.slice(i, i + 8));
+        }
+        setMenuList(dividedList); // divide menuList by 8
+        setLoading(false);
+      } catch (error) {
+        setLoading(false);
+        console.log(`error: ${error}`);
+        return <div>데이터를 불러오지 못했습니다.</div>;
       }
-      setPages(pagesArr); // update pages state
+    };
+    fetchMenus();
+  }, [setLoading, setPages, setMenuList, category]);
 
-      let dividedList = [];
-      console.log(response.data.length);
-      setMenuList(response.data);
-      setLoading(false);
-    });
-  }, [setLoading, setPages, setMenuList]);
-
-  // 사용자가 선택하는 페이지가 달라질 때마다 바뀌게 함
   useEffect(getMenuList, []);
+
+  // re-render menu page when nowPage changed
+  useEffect(() => {
+    const nowIdx = nowPage - 1;
+    setMenuPage(menuList[nowIdx]);
+  }, [nowPage, menuList]);
 
   return (
     <>
@@ -55,9 +66,9 @@ const ShowMenuList = ({ category }) => {
             <div>
               <Loading type="spokes" color="blue" />
             </div>
-          ) : menuList ? (
+          ) : menuPage ? (
             <ul>
-              {menuList.map((menu) => (
+              {menuPage.map((menu) => (
                 <EachMenu
                   id={menu.id}
                   name={menu.name}
@@ -72,35 +83,11 @@ const ShowMenuList = ({ category }) => {
       </div>
 
       <div>
-        {isFirstPage ? (
-          <div
-            onClick={() => {
-              if (nowPage > 1) setNowPage(nowPage - 1);
-            }}
-          >
-            <FontAwesomeIcon icon={faArrowLeft} />
-          </div>
-        ) : (
-          ""
-        )}
-
         {pages.map((pageNum) => (
           <div key={pageNum} onClick={() => setNowPage(pageNum)}>
             {pageNum}
           </div>
         ))}
-
-        {isFinalPage ? (
-          <div
-            onClick={() => {
-              if (pages.length > nowPage) setNowPage(nowPage + 1);
-            }}
-          >
-            <FontAwesomeIcon icon={faArrowRight} />
-          </div>
-        ) : (
-          ""
-        )}
       </div>
     </>
   );

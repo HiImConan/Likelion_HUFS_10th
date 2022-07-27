@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 
 import EachMenu from "./EachMenu";
 import Loading from "./Loading";
+import Data from "../assets/Data";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowsRotate } from "@fortawesome/free-solid-svg-icons";
@@ -39,9 +40,25 @@ const ShowMenuList = ({ category }) => {
         setMenuList(dividedList); // divide menuList by 8
         setLoading(false);
       } catch (error) {
+        console.log(`error: ${error.response.status}
+        로컬 데이터로 대체합니다.`);
+
+        const res = Data;
+        const lastPage = Math.ceil(res.length / 8);
+        const pagesArr = [];
+        for (let i = 1; i <= lastPage; i++) {
+          pagesArr.push(i);
+        }
+        setPages(pagesArr); // update 'pages' state
+
+        let dividedList = [];
+        for (let i = 0; i < res.length; i += 8) {
+          dividedList.push(res.slice(i, i + 8));
+        }
+        setMenuList(dividedList); // divide menuList by 8
         setLoading(false);
-        console.log(`error: ${error}`);
-        return <div>데이터를 불러오지 못했습니다.</div>;
+
+        setLoading(false);
       }
     };
     fetchMenus();
@@ -70,6 +87,7 @@ const ShowMenuList = ({ category }) => {
             <ul>
               {menuPage.map((menu) => (
                 <EachMenu
+                  key={menu.id}
                   id={menu.id}
                   name={menu.name}
                   category={menu.category}

@@ -12,7 +12,7 @@ const Layout = () => {
   const categories = [
     {
       id: "전체",
-      path: "",
+      path: "all",
     },
     {
       id: "한식",

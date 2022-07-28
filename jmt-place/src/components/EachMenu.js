@@ -1,12 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
+
 import Image from "../assets/Image";
 
 const MenuWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-item: center;
-  margin: 0.5rem;
+  margin: 1rem;
 `;
 
 const MenuIcon = styled.div`
@@ -34,8 +35,8 @@ const MenuCategory = styled.div`
 `;
 
 const EachMenu = ({ id, name, category }) => {
+  const [isActive, setIsActive] = useState();
   function whatKindOfThisFoodIs(category) {
-    console.log(`category: ${category}`);
     switch (category) {
       case "한식":
         return Image.kr;
@@ -64,4 +65,4 @@ const EachMenu = ({ id, name, category }) => {
   );
 };
 
-export default EachMenu;
+export default React.memo(EachMenu);

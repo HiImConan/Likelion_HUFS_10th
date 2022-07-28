@@ -5,26 +5,55 @@ import { useParams } from "react-router-dom";
 import EachMenu from "./EachMenu";
 import Loading from "./Loading";
 import Data from "../assets/Data";
+import Pagination from "./Pagination";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowsRotate } from "@fortawesome/free-solid-svg-icons";
 
-const API_URL = "https://72ed957c-6ff1-40d0-b1f8-8c268eaca41e.mock.pstmn.io";
+const API_URL = "https://afd8cb3b-0077-4554-a7be-4ce86d83222c.mock.pstmn.io1";
 
-const ShowMenuList = ({ category }) => {
+const ShowMenuList = () => {
   const [loading, setLoading] = useState(true);
   const [menuList, setMenuList] = useState([]);
   const [nowPage, setNowPage] = useState(1);
   const [menuPage, setMenuPage] = useState([]);
   const [pages, setPages] = useState([]);
 
-  const { id } = useParams();
+  const { categoryID } = useParams();
 
   const getMenuList = useCallback(() => {
     const fetchMenus = async () => {
       setLoading(true);
+
+      function sortOut(element) {
+        const convertParamsToCategory = () => {
+          switch (categoryID) {
+            case "all":
+              return "";
+            case "kr":
+              return "한식";
+            case "cn":
+              return "중식";
+            case "jp":
+              return "일식";
+            case "west":
+              return "양식";
+            case "coffee":
+              return "카페";
+            default:
+              return "all";
+          }
+        };
+        const dataCategory = convertParamsToCategory(categoryID);
+        console.log(`dataCategory:${dataCategory}`);
+        if (element.category === dataCategory) {
+          return true;
+        }
+      }
+
       try {
-        const res = await axios.get(`${API_URL}/${category}`);
+        const res = await axios.get(`${API_URL}/${categoryID}`);
+        console.log(`response status: ${res.status}`);
 
         const lastPage = Math.ceil(res.data.length / 8);
         const pagesArr = [];
@@ -40,10 +69,11 @@ const ShowMenuList = ({ category }) => {
         setMenuList(dividedList); // divide menuList by 8
         setLoading(false);
       } catch (error) {
-        console.log(`error: ${error.response.status}
-        로컬 데이터로 대체합니다.`);
+        console.log(
+          `error: ${error.response.status}, 로컬 데이터로 대체합니다.`
+        );
 
-        const res = Data;
+        const res = categoryID !== "all" ? Data.filter(sortOut) : Data;
         const lastPage = Math.ceil(res.length / 8);
         const pagesArr = [];
         for (let i = 1; i <= lastPage; i++) {
@@ -57,14 +87,12 @@ const ShowMenuList = ({ category }) => {
         }
         setMenuList(dividedList); // divide menuList by 8
         setLoading(false);
-
-        setLoading(false);
       }
     };
     fetchMenus();
-  }, [setLoading, setPages, setMenuList, category]);
+  }, [setLoading, setPages, setMenuList, categoryID]);
 
-  useEffect(getMenuList, []);
+  useEffect(getMenuList, [categoryID, getMenuList]);
 
   // re-render menu page when nowPage changed
   useEffect(() => {
@@ -83,7 +111,7 @@ const ShowMenuList = ({ category }) => {
             <div>
               <Loading type="spokes" color="blue" />
             </div>
-          ) : menuPage ? (
+          ) : menuPage && menuPage ? (
             <ul>
               {menuPage.map((menu) => (
                 <EachMenu
@@ -100,13 +128,7 @@ const ShowMenuList = ({ category }) => {
         </div>
       </div>
 
-      <div>
-        {pages.map((pageNum) => (
-          <div key={pageNum} onClick={() => setNowPage(pageNum)}>
-            {pageNum}
-          </div>
-        ))}
-      </div>
+      <Pagination pages={pages} nowPage={nowPage} setNowPage={setNowPage} />
     </>
   );
 };

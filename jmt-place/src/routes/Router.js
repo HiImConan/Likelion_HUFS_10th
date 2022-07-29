@@ -1,9 +1,9 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
-import ShowMenuList from "./ShowMenuList";
-import Mypage from "../routes/Mypage";
-import NotFound from "../routes/NotFound";
-import Layout from "./Layout";
+import ShowMenuList from "../models/ShowMenuList";
+import Mypage from "./Mypage";
+import NotFound from "./NotFound";
+import Layout from "../components/Layout";
 
 const Router = () => {
   return (

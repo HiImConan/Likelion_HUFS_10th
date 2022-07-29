@@ -22,7 +22,11 @@ const ArrowButton = styled.button`
         `};
 `;
 
-const Pagination = ({ pages, nowPage, setNowPage }) => {
+const Pagination = ({ menuLength, nowPage, setNowPage }) => {
+  const limit = 8;
+  const lastPage = Math.ceil(menuLength / limit);
+  const pages = [...Array(lastPage).keys()].map((element) => element + 1);
+
   return (
     <PageNumSection>
       <ArrowButton
@@ -42,7 +46,7 @@ const Pagination = ({ pages, nowPage, setNowPage }) => {
       ))}
       <ArrowButton
         onClick={() => setNowPage(nowPage + 1)}
-        disabled={nowPage === pages.at(-1)}
+        disabled={nowPage === lastPage}
       >
         &gt;
       </ArrowButton>

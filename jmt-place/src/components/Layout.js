@@ -9,7 +9,7 @@ const NavUl = styled.ul`
 `;
 
 const Layout = () => {
-  const categories = [
+  const MENU_CATEGORY_LIST = [
     {
       id: "전체",
       path: "all",
@@ -51,7 +51,7 @@ const Layout = () => {
       <header>
         <button onClick={goBack}>⬅️</button>
         <NavUl>
-          {categories.map((element) => (
+          {MENU_CATEGORY_LIST.map((element) => (
             <NavLink
               to={`/${element.path}`}
               key={element.id}

@@ -2,16 +2,15 @@ import axios from "axios";
 import { useState, useEffect, useCallback } from "react";
 import { useParams } from "react-router-dom";
 
-import { useSetRecoilState } from "recoil";
-import { menuItemListState } from "../assets/atom";
+import { useSetRecoilState, useRecoilState } from "recoil";
+import { menuItemListState, favItemState } from "../assets/atom";
 
 import EachMenu from "./EachMenu";
 import Loading from "../components/Loading";
 import DUMMY_DATA from "../assets/Data";
 import Pagination from "../components/Pagination";
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowsRotate } from "@fortawesome/free-solid-svg-icons";
+import { MenuListWrapper, LoadingDiv, MenuUl } from "../styles/MenuListStyles";
 
 const API_URL = "https://afd8cb3b-0077-4554-a7be-4ce86d83222c.mock.pstmn.io1";
 
@@ -41,23 +40,17 @@ const ShowMenuList = () => {
   const [menuPage, setMenuPage] = useState([]);
   const [menuLength, setMenuLength] = useState(0);
   const setMenuItemList = useSetRecoilState(menuItemListState);
+  const [favItems, setFavItems] = useRecoilState(favItemState);
 
   const { categoryID } = useParams();
 
-  const menuListHandler = (res) => {
-    const menuArr =
-      "isChecked" in res
-        ? res
-        : res.map((obj) => {
-            return { ...obj, isChecked: false };
-          });
-    setMenuItemList(menuArr);
+  const menuListDivider = (res) => {
+    setMenuItemList(res);
     let dividedList = [];
-    for (let i = 0; i < menuArr.length; i += 8) {
-      dividedList.push(menuArr.slice(i, i + 8));
+    for (let i = 0; i < res.length; i += 8) {
+      dividedList.push(res.slice(i, i + 8));
     }
     setMenuList(dividedList); // divide menuList by 8
-    return menuArr;
   };
 
   const getMenuList = useCallback(() => {
@@ -68,7 +61,7 @@ const ShowMenuList = () => {
         const res = await axios.get(`${API_URL}/${categoryID}`);
         console.log(`response status: ${res.status}`);
 
-        menuListHandler(res.data);
+        menuListDivider(res.data);
 
         setMenuLength(res.data.length);
 
@@ -85,7 +78,7 @@ const ShowMenuList = () => {
               )
             : DUMMY_DATA;
 
-        menuListHandler(res);
+        menuListDivider(res);
 
         setMenuLength(res.length);
 
@@ -103,40 +96,76 @@ const ShowMenuList = () => {
     setMenuPage(menuList[nowIdx]);
   }, [nowPage, menuList]);
 
+  useEffect(() => {
+    const storage = localStorage.getItem("favs");
+
+    if (storage !== null) {
+      const parsedData = JSON.parse(storage);
+      setFavItems(parsedData);
+    } else {
+      setFavItems([]);
+    }
+  }, [setFavItems]);
+
+  useEffect(() => {
+    setNowPage(1);
+  }, [categoryID]);
+
+  const unit = (nowPage - 1) * 8;
+
   return (
     <>
-      <div>
-        <div>
-          <FontAwesomeIcon onClick={getMenuList} icon={faArrowsRotate} />
-        </div>
-        <div>
-          {loading ? (
-            <div>
-              <Loading type="spokes" color="blue" />
-            </div>
-          ) : menuPage && menuPage ? (
+      <MenuListWrapper>
+        {loading ? (
+          <LoadingDiv>
+            <Loading type="spokes" color="#2C4172" />
+          </LoadingDiv>
+        ) : categoryID !== "mypage" ? (
+          menuPage && menuPage ? (
+            <>
+              <MenuUl>
+                {menuPage.map((menu) => (
+                  <EachMenu
+                    key={menu.id}
+                    id={menu.id}
+                    name={menu.name}
+                    category={menu.category}
+                    isMyPage={false}
+                  />
+                ))}
+              </MenuUl>
+              <Pagination
+                menuLength={menuLength}
+                nowPage={nowPage}
+                setNowPage={setNowPage}
+              />
+            </>
+          ) : (
+            <div>등록된 맛집이 없습니다.</div>
+          )
+        ) : favItems && favItems ? (
+          <>
             <ul>
-              {menuPage.map((menu) => (
+              {favItems.slice(unit, unit + 8).map((menu) => (
                 <EachMenu
                   key={menu.id}
                   id={menu.id}
                   name={menu.name}
                   category={menu.category}
-                  isChecked={menu.isChecked}
+                  isMyPage={true}
                 />
               ))}
             </ul>
-          ) : (
-            <div>등록된 맛집이 없습니다.</div>
-          )}
-        </div>
-      </div>
-
-      <Pagination
-        menuLength={menuLength}
-        nowPage={nowPage}
-        setNowPage={setNowPage}
-      />
+            <Pagination
+              menuLength={favItems.length}
+              nowPage={nowPage}
+              setNowPage={setNowPage}
+            />
+          </>
+        ) : (
+          <div>등록된 맛집이 없습니다.</div>
+        )}
+      </MenuListWrapper>
     </>
   );
 };

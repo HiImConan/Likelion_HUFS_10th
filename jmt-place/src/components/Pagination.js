@@ -1,6 +1,8 @@
 import styled, { css } from "styled-components";
 
 const PageNumSection = styled.div`
+  position: absolute;
+  bottom: 30px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -8,7 +10,7 @@ const PageNumSection = styled.div`
 const PageNumDiv = styled.div`
   margin: 0.5rem;
   &.isActive {
-    color: blue;
+    color: #2c4172;
   }
 `;
 const ArrowButton = styled.button`
@@ -24,7 +26,10 @@ const ArrowButton = styled.button`
 
 const Pagination = ({ menuLength, nowPage, setNowPage }) => {
   const limit = 8;
-  const lastPage = Math.ceil(menuLength / limit);
+  const pageLength = menuLength / limit;
+  const lastPage = Number.isInteger(pageLength)
+    ? pageLength
+    : Math.ceil(pageLength);
   const pages = [...Array(lastPage).keys()].map((element) => element + 1);
 
   return (
@@ -39,7 +44,7 @@ const Pagination = ({ menuLength, nowPage, setNowPage }) => {
         <PageNumDiv
           key={pageNum}
           onClick={() => setNowPage(pageNum)}
-          style={{ color: pageNum === nowPage && "blue" }}
+          style={{ color: pageNum === nowPage ? "#2C4172" : "#AABACD" }}
         >
           {pageNum}
         </PageNumDiv>

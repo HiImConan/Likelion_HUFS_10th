@@ -1,12 +1,7 @@
 import React from "react";
-import { Outlet, useNavigate, NavLink } from "react-router-dom";
-import styled from "styled-components";
+import { Outlet, NavLink } from "react-router-dom";
 
-const NavUl = styled.ul`
-  display: flex;
-  justify-content: center;
-  width: 100%;
-`;
+import { LayoutWrapper, Header, NavUl, Main } from "../styles/LayoutStyles";
 
 const Layout = () => {
   const MENU_CATEGORY_LIST = [
@@ -40,16 +35,9 @@ const Layout = () => {
     },
   ];
 
-  const navigate = useNavigate();
-
-  const goBack = () => {
-    navigate(-1);
-  };
-
   return (
-    <>
-      <header>
-        <button onClick={goBack}>⬅️</button>
+    <LayoutWrapper>
+      <Header>
         <NavUl>
           {MENU_CATEGORY_LIST.map((element) => (
             <NavLink
@@ -59,7 +47,8 @@ const Layout = () => {
                 return {
                   textDecoration: "none",
                   margin: "1rem",
-                  color: isActive ? "blue" : "",
+                  color: isActive ? "" : "#2C4172",
+                  fontSize: isActive ? "600" : "",
                 };
               }}
             >
@@ -67,12 +56,12 @@ const Layout = () => {
             </NavLink>
           ))}
         </NavUl>
-      </header>
-      <hr></hr>
-      <main>
+      </Header>
+
+      <Main>
         <Outlet />
-      </main>
-    </>
+      </Main>
+    </LayoutWrapper>
   );
 };
 

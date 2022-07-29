@@ -1,42 +1,21 @@
-import React, { useEffect } from "react";
-import styled from "styled-components";
+import React from "react";
 
 import Image from "../assets/Image";
-import CartCheckbox from "../components/CartCheckbox";
 
 import { useRecoilState } from "recoil";
-import { menuItemListState } from "../assets/atom";
+import { favItemState } from "../assets/atom";
 
-const MenuWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  align-item: center;
-  margin: 1rem;
-`;
-
-const MenuIcon = styled.div`
-  color: blue;
-  padding-right: 0.5rem;
-  & > img {
-    width: 1.5rem;
-    height: 1.5rem;
-  }
-`;
-
-const MenuInfo = styled.div`
-  display: block;
-`;
-
-const MenuName = styled.div`
-  font-size: 1rem;
-  color: black;
-  font-weight: 600;
-`;
-
-const MenuCategory = styled.div`
-  font-size: 0.5rem;
-  color: gray;
-`;
+import {
+  MenuWrapper,
+  MenuIcon,
+  MenuInfo,
+  MenuName,
+  MenuCategory,
+  ButtonDiv,
+  TrashcanImg,
+  CheckboxImg,
+  CheckboxEmptyImg,
+} from "../styles/MenuStyles";
 
 function whatKindOfThisFoodIs(category) {
   switch (category) {
@@ -54,27 +33,30 @@ function whatKindOfThisFoodIs(category) {
       return Image.def;
   }
 }
-const EachMenu = ({ id, name, category, isChecked }) => {
-  const [menuItem, setMenuItem] = useRecoilState(menuItemListState);
+const EachMenu = ({ id, name, category, isMyPage }) => {
+  const [favItems, setFavItems] = useRecoilState(favItemState);
 
-  const toggleCartItem = (id, name) => {
-    setMenuItem(() => {
-      menuItem.map((obj) => {
-        console.log(menuItem);
-        if ((obj.id === id) & !obj.isChecked) {
-          alert(`${name}이(가) 찜 목록에 추가되었습니다!`);
-          return { ...obj, isChecked: true };
-        } else if ((obj.id === id) & obj.isChecked) {
-          alert(`이미 추가되어있는 맛집입니다.`);
-          return { ...obj };
-        } else {
-          return { ...obj };
-        }
-      });
+  const handleFavItems = (id, name, category) => {
+    setFavItems(() => {
+      const prevState = [...favItems];
+      const favIdx = prevState.findIndex((fav) => fav.id === id);
+      let result;
+
+      if (favIdx === -1) {
+        result = [...prevState, { id, name, category }];
+        localStorage.setItem("favs", JSON.stringify(result));
+        alert(`${name}이(가) 찜 목록에 추가되었습니다!`);
+      } else {
+        prevState.splice(favIdx, 1);
+        result = prevState;
+        localStorage.setItem("favs", JSON.stringify(result));
+        alert(`${name}이(가) 찜 목록에서 삭제되었습니다.`);
+      }
+      return result;
     });
   };
   return (
-    <MenuWrapper onClick={() => toggleCartItem(id, name)}>
+    <MenuWrapper onClick={() => handleFavItems(id, name, category)}>
       <MenuIcon>
         <img src={`${whatKindOfThisFoodIs(category)}`} alt="Icon" />
       </MenuIcon>
@@ -82,7 +64,7 @@ const EachMenu = ({ id, name, category, isChecked }) => {
         <MenuName>{name}</MenuName>
         <MenuCategory>{category}</MenuCategory>
       </MenuInfo>
-      <CartCheckbox id={id} isChecked={isChecked} />
+      <ButtonDiv>{isMyPage ? <TrashcanImg /> : <CheckboxImg />}</ButtonDiv>
     </MenuWrapper>
   );
 };

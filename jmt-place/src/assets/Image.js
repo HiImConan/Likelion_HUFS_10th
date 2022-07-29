@@ -5,6 +5,9 @@ const Image = {
   west: "/img/restaurant.png",
   coffee: "/img/coffee.png",
   def: "/img/burger.png",
+  trashcan: "/img/trash.png",
+  checkbox: "/img/check-box.png",
+  emptybox: "/img/check-box-empty.png",
 };
 
 export default Image;

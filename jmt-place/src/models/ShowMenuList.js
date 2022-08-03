@@ -7,7 +7,7 @@ import { menuItemListState, favItemState } from "../assets/atom";
 
 import EachMenu from "./EachMenu";
 import Loading from "../components/Loading";
-import DUMMY_DATA from "../assets/Data";
+import DUMMY_DATA from "../assets/Api";
 import Pagination from "../components/Pagination";
 
 import { MenuListWrapper, LoadingDiv, MenuUl } from "../styles/MenuListStyles";

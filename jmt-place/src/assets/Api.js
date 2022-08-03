@@ -1,4 +1,45 @@
-const DUMMY_DATA = [
+import { axios } from "axios";
+
+const API_URL = "https://afd8cb3b-0077-4554-a7be-4ce86d83222c.mock.pstmn.io";
+
+const convertParamsToCategory = (id) => {
+  switch (id) {
+    case "all":
+      return "";
+    case "kr":
+      return "한식";
+    case "cn":
+      return "중식";
+    case "jp":
+      return "일식";
+    case "west":
+      return "양식";
+    case "coffee":
+      return "카페";
+    default:
+      return "all";
+  }
+};
+
+export const getCategoryApi = async (category) => {
+  try {
+    const res = await axios.get(`${API_URL}/${category}`);
+    console.log(res.data);
+    return res.data;
+  } catch (e) {
+    console.log(e);
+    const res =
+      category !== "all"
+        ? DUMMY_DATA.filter(
+            (data) => data.category === convertParamsToCategory(category)
+          )
+        : DUMMY_DATA;
+    console.log(res);
+    return res;
+  }
+};
+
+export const DUMMY_DATA = [
   {
     id: 1,
     name: "촨커",
@@ -179,4 +220,3 @@ const DUMMY_DATA = [
     category: "한식",
   },
 ];
-export default DUMMY_DATA;

@@ -1,28 +1,4 @@
-import styled, { css } from "styled-components";
-
-const PageNumSection = styled.div`
-  position: absolute;
-  bottom: 30px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-const PageNumDiv = styled.div`
-  margin: 0.5rem;
-  &.isActive {
-    color: #2c4172;
-  }
-`;
-const ArrowButton = styled.button`
-  ${(props) =>
-    props.disabled
-      ? css`
-          display: none;
-        `
-      : css`
-          cursor: pointer;
-        `};
-`;
+import { PageNumSection, ArrowButton, PageNumDiv } from "./styled";
 
 const Pagination = ({ menuLength, nowPage, setNowPage }) => {
   const limit = 8;

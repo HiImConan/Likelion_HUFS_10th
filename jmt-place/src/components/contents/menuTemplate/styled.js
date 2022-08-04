@@ -1,14 +1,9 @@
 import styled from "styled-components";
 
-export const MenuListWrapper = styled.div`
+export const MenuTemplateWrapper = styled.div`
   height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-`;
-
-export const LoadingDiv = styled.div`
   justify-content: center;
   align-items: center;
 `;

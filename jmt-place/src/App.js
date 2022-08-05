@@ -1,10 +1,11 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Provider } from "./Context";
+import { Provider } from "./contexts/Context";
 import { createGlobalStyle } from "styled-components";
 import { reset } from "styled-reset";
 import CategoryPage from "./components/pages/categoryPage";
 import Mypage from "./components/pages/mypage";
 import NotFound from "./components/pages/404";
+import { MenuProvider } from "./contexts/MenuContext";
 
 const GlobalStyles = createGlobalStyle`
   ${reset}
@@ -36,14 +37,16 @@ const GlobalStyles = createGlobalStyle`
 const App = () => {
   return (
     <Provider>
-      <GlobalStyles />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/:categoryID" element={<CategoryPage />} />
-          <Route path="/mypage" element={<Mypage />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
+      <MenuProvider>
+        <GlobalStyles />
+        <BrowserRouter>
+          <Routes>
+            <Route path="/:categoryID" element={<CategoryPage />} />
+            <Route path="/mypage" element={<Mypage />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </BrowserRouter>
+      </MenuProvider>
     </Provider>
   );
 };

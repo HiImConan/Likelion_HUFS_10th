@@ -1,12 +1,13 @@
 import React from "react";
 import { MenuTemplateWrapper } from "./styled";
+import { useMenuValue } from "../../../contexts/MenuContext";
 import Menu from "../menu";
 
-const MenuTemplate = ({ menuData }) => {
-  console.log(menuData);
+const MenuTemplate = () => {
+  const { menuList } = useMenuValue();
   return (
     <MenuTemplateWrapper>
-      {menuData.map((item) => {
+      {menuList.map((item) => {
         return <Menu key={item.id} name={item.name} category={item.category} />;
       })}
     </MenuTemplateWrapper>

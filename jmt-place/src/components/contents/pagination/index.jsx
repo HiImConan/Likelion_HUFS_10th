@@ -1,35 +1,32 @@
 import { PageNumSection, ArrowButton, PageNumDiv } from "./styled";
+import { useMenuActions, useMenuValue } from "../../../contexts/MenuContext";
 
-const Pagination = ({ menuLength, nowPage, setNowPage }) => {
-  const limit = 8;
-  const pageLength = menuLength / limit;
-  const lastPage = Number.isInteger(pageLength)
-    ? pageLength
-    : Math.ceil(pageLength);
-  const pages = [...Array(lastPage).keys()].map((element) => element + 1);
-
+const Pagination = () => {
+  const { pageList, nowPage } = useMenuValue();
+  const { loadPage } = useMenuActions();
+  console.log(pageList, nowPage);
   return (
     <PageNumSection>
       <ArrowButton
-        onClick={() => setNowPage(nowPage - 1)}
+        onClick={() => loadPage(nowPage - 1)}
         disabled={nowPage === 1}
       >
-        &lt;
+        ⬅️
       </ArrowButton>
-      {pages.map((pageNum) => (
+      {pageList.map((num) => (
         <PageNumDiv
-          key={pageNum}
-          onClick={() => setNowPage(pageNum)}
-          style={{ color: pageNum === nowPage ? "#2C4172" : "#AABACD" }}
+          key={num}
+          onClick={() => loadPage(num)}
+          style={{ color: num === nowPage ? "#2C4172" : "#AABACD" }}
         >
-          {pageNum}
+          {num}
         </PageNumDiv>
       ))}
       <ArrowButton
-        onClick={() => setNowPage(nowPage + 1)}
-        disabled={nowPage === lastPage}
+        onClick={() => loadPage(nowPage + 1)}
+        disabled={nowPage === pageList.length}
       >
-        &gt;
+        ➡️
       </ArrowButton>
     </PageNumSection>
   );

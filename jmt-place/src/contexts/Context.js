@@ -1,7 +1,7 @@
 import { createContext, useContext, useState, useMemo, useRef } from "react";
 
-const MenuValueContext = createContext();
-const MenuActionsContext = createContext();
+const CartValueContext = createContext();
+const CartActionsContext = createContext();
 
 export function Provider({ children }) {
   const [selected, setSelected] = useState([]);
@@ -28,26 +28,26 @@ export function Provider({ children }) {
   );
 
   return (
-    <MenuActionsContext.Provider value={actions}>
-      <MenuValueContext.Provider value={selected}>
+    <CartActionsContext.Provider value={actions}>
+      <CartValueContext.Provider value={selected}>
         {children}
-      </MenuValueContext.Provider>
-    </MenuActionsContext.Provider>
+      </CartValueContext.Provider>
+    </CartActionsContext.Provider>
   );
 }
 
-export function useMenuValue() {
-  const context = useContext(MenuValueContext);
+export function useCartValue() {
+  const context = useContext(CartValueContext);
   if (!context) {
-    throw new Error("useMenuValue should be used within TodosProvider");
+    throw new Error("useCartValue should be used within Provider");
   }
   return context;
 }
 
-export function useMenuActions() {
-  const context = useContext(MenuActionsContext);
+export function useCartActions() {
+  const context = useContext(CartActionsContext);
   if (!context) {
-    throw new Error("useMenuActions should be used within TodosProvider");
+    throw new Error("useCartActions should be used within Provider");
   }
   return context;
 }

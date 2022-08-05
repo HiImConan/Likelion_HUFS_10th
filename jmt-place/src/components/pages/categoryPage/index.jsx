@@ -1,19 +1,21 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import Layout from "../../layout/index";
-import MenuTemplate from "../../contents/menuTemplate";
 import { getCategoryApi } from "../../../assets/Api";
+import { useMenuActions } from "../../../contexts/MenuContext";
+import Layout from "../../layout/index";
+import Pagination from "../../contents/pagination";
 import Loading from "../../../assets/Loading";
+import Menu from "../../contents/menu";
 
 const CategoryPage = () => {
   const { categoryID } = useParams();
-  const [menuData, setMenuData] = useState();
+  const action = useMenuActions();
   const [loading, setLoading] = useState(null);
 
   const getMenuList = async () => {
     try {
       const res = await getCategoryApi(categoryID);
-      setMenuData(res);
+      action.update(res);
       console.log(res);
       setLoading(false);
     } catch (error) {
@@ -30,7 +32,8 @@ const CategoryPage = () => {
   return (
     <Layout>
       {loading && <Loading />}
-      {menuData && <MenuTemplate menuData={menuData} />}
+      <Menu />
+      <Pagination />
     </Layout>
   );
 };

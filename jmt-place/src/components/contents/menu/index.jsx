@@ -1,11 +1,11 @@
 import React from "react";
 import { whatKindOfThisFoodIs } from "../../../assets/Image";
-import { useMenuActions } from "../../../Context";
+import { useCartActions } from "../../../contexts/Context";
 
 import { MenuWrapper, MenuIcon, MenuName, MenuCategory } from "./styled";
 
 const Menu = ({ id, name, category }) => {
-  const action = useMenuActions();
+  const action = useCartActions();
   const handleSubmit = (e) => {
     e.preventDefault();
     action.add({

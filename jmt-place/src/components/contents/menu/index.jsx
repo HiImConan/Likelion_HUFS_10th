@@ -1,10 +1,10 @@
 import React from "react";
-import whatKindOfThisFoodIs from "../../../assets/Image";
-import useMenuActions from "../../../Context";
+import { whatKindOfThisFoodIs } from "../../../assets/Image";
+import { useMenuActions } from "../../../Context";
 
 import { MenuWrapper, MenuIcon, MenuName, MenuCategory } from "./styled";
 
-const Menu = ({ name, category }) => {
+const Menu = ({ id, name, category }) => {
   const action = useMenuActions();
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -17,7 +17,9 @@ const Menu = ({ name, category }) => {
   };
   return (
     <MenuWrapper onClick={handleSubmit}>
-      <MenuIcon src={whatKindOfThisFoodIs(category)} />
+      <MenuIcon>
+        <img src={whatKindOfThisFoodIs(category)} alt={"img"} />
+      </MenuIcon>
       <MenuName>{name}</MenuName>
       <MenuCategory>{category}</MenuCategory>
     </MenuWrapper>

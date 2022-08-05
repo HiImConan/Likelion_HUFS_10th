@@ -30,7 +30,7 @@ const CategoryPage = () => {
   return (
     <Layout>
       {loading && <Loading />}
-      <MenuTemplate menuData />
+      {menuData && <MenuTemplate menuData={menuData} />}
     </Layout>
   );
 };

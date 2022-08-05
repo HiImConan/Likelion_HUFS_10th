@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import Image from "../assets/Image";
 
 export const MenuWrapper = styled.div`
   display: flex;

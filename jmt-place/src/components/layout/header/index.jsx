@@ -1,5 +1,5 @@
 import React from "react";
-import { Header, NavUl, NavLink } from "./styled";
+import { HeaderSection, NavUl, NavLi } from "./styled";
 
 const MENU_CATEGORY_LIST = [
   {
@@ -34,15 +34,15 @@ const MENU_CATEGORY_LIST = [
 
 const Header = () => {
   return (
-    <Header>
+    <HeaderSection>
       <NavUl>
         {MENU_CATEGORY_LIST.map((element) => (
-          <NavLink to={`/${element.path}`} key={element.id}>
+          <NavLi to={`/${element.path}`} key={element.id}>
             {element.id}
-          </NavLink>
+          </NavLi>
         ))}
       </NavUl>
-    </Header>
+    </HeaderSection>
   );
 };
 

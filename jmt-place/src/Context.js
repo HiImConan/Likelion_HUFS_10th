@@ -16,7 +16,7 @@ export function Provider({ children }) {
       toggle(id) {
         setSelected((prev) =>
           prev.map((item) => {
-            item.id === id ? { ...item, done: !item.done } : item;
+            return item.id === id ? { ...item, done: !item.done } : item;
           })
         );
       },

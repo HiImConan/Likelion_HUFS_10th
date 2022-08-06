@@ -20,5 +20,4 @@ export const LayoutWrapper = styled.div`
 export const Main = styled.div`
   height: 100%;
   display: flex;
-  margin: 0 auto;
 `;

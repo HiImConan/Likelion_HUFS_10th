@@ -1,14 +1,14 @@
 import styled, { css } from "styled-components";
 
-export const PageNumSection = styled.div`
+export const PaginationSection = styled.div`
   position: absolute;
-  bottom: 30px;
+  bottom: 3rem;
   display: flex;
   justify-content: center;
   align-items: center;
+  gap: 1rem;
 `;
 export const PageNumDiv = styled.div`
-  margin: 0.5rem;
   &.isActive {
     color: #2c4172;
   }

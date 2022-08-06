@@ -5,10 +5,10 @@ import { useCartActions } from "../../../contexts/Context";
 import { MenuWrapper, MenuIcon, MenuName, MenuCategory } from "./styled";
 
 const Menu = ({ id, name, category }) => {
-  const action = useCartActions();
+  const actions = useCartActions();
   const handleSubmit = (e) => {
     e.preventDefault();
-    action.add({
+    actions.add({
       name,
       category,
       done: false,

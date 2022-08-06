@@ -1,10 +1,10 @@
 import styled from "styled-components";
 
 export const MenuWrapper = styled.div`
+  width: 100%;
   display: flex;
   justify-content: center;
   align-item: center;
-  margin: 1rem;
 `;
 
 export const MenuIcon = styled.div`

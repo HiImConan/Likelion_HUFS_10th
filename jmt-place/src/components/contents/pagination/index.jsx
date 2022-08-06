@@ -1,12 +1,18 @@
-import { PageNumSection, ArrowButton, PageNumDiv } from "./styled";
-import { useMenuActions, useMenuValue } from "../../../contexts/MenuContext";
+import { PaginationSection, ArrowButton, PageNumDiv } from "./styled";
+import {
+  usePageActions,
+  usePageValue,
+  useMenuValue,
+} from "../../../contexts/MenuContext";
 
 const Pagination = () => {
-  const { pageList, nowPage } = useMenuValue();
-  const { loadPage } = useMenuActions();
-  console.log(pageList, nowPage);
+  const [, nowPage] = useMenuValue();
+  const pageList = usePageValue();
+  const loadPage = usePageActions();
+  console.log(nowPage);
+  console.log(pageList);
   return (
-    <PageNumSection>
+    <PaginationSection>
       <ArrowButton
         onClick={() => loadPage(nowPage - 1)}
         disabled={nowPage === 1}
@@ -28,7 +34,7 @@ const Pagination = () => {
       >
         ➡️
       </ArrowButton>
-    </PageNumSection>
+    </PaginationSection>
   );
 };
 

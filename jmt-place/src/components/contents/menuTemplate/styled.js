@@ -1,11 +1,11 @@
 import styled from "styled-components";
 
-export const MenuTemplateWrapper = styled.div`
-  height: 100%;
+export const MenuTemplateSection = styled.div`
+  position: absolute;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
+
+  gap: 1rem;
 `;
 
 export const MenuUl = styled.ul`

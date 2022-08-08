@@ -16,16 +16,16 @@ export function MenuProvider({ children }) {
   const actions = useMemo(
     () => ({
       update(menuData) {
-        setMenuData(menuData); // pagination 안된 버전
+        setMenuData(menuData);
         setMenuList(menuData.slice(offset(nowPage), offset(nowPage) + limit));
         const pageLength = menuData.length / limit;
         const lastPage = Number.isInteger(pageLength)
           ? pageLength
           : Math.ceil(pageLength);
-        setPageList([...Array(lastPage).keys()].map((element) => element + 1)); // 해당 카테고리의 전체 페이지 리스트는 맨 처음 계산되는게 맞음
+        setPageList([...Array(lastPage).keys()].map((element) => element + 1));
+        setNowPage(1);
       },
       loadPage(num) {
-        // nowPage가 바뀔 때마다 menuList가 바뀌므로 loadPage가 필요함
         setNowPage(num);
         setMenuList(menuData.slice(offset(num), offset(num) + limit));
       },

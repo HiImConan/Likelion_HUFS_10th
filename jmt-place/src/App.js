@@ -1,10 +1,10 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Provider } from "./contexts/Context";
 import { createGlobalStyle } from "styled-components";
 import { reset } from "styled-reset";
 import CategoryPage from "./components/pages/categoryPage";
 import Mypage from "./components/pages/mypage";
 import NotFound from "./components/pages/404";
+import { Provider } from "./contexts/Context";
 import { MenuProvider } from "./contexts/MenuContext";
 
 const GlobalStyles = createGlobalStyle`

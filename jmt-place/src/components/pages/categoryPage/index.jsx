@@ -1,16 +1,27 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { getCategoryApi } from "../../../assets/Api";
-import { useMenuActions } from "../../../contexts/MenuContext";
+
 import Layout from "../../layout/index";
 import Pagination from "../../contents/pagination";
 import Loading from "../../../assets/Loading";
 import MenuTemplate from "../../contents/menuTemplate";
 import { CategoryPageSection } from "./styled";
+import {
+  usePageActions,
+  usePageValue,
+  useMenuValue,
+  useMenuActions,
+} from "../../../contexts/MenuContext";
 
 const CategoryPage = () => {
-  const { categoryID } = useParams();
+  const [, nowPage] = useMenuValue();
   const update = useMenuActions();
+  const pageList = usePageValue();
+  const loadPage = usePageActions();
+  console.log(nowPage, pageList);
+
+  const { categoryID } = useParams();
   const [loading, setLoading] = useState(null);
 
   const getMenuList = async () => {
@@ -37,7 +48,11 @@ const CategoryPage = () => {
       ) : (
         <CategoryPageSection>
           <MenuTemplate />
-          <Pagination />
+          <Pagination
+            nowPage={nowPage}
+            pageList={pageList}
+            loadPage={loadPage}
+          />
         </CategoryPageSection>
       )}
     </Layout>

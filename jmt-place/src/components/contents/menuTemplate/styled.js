@@ -4,8 +4,7 @@ export const MenuTemplateSection = styled.div`
   position: absolute;
   display: flex;
   flex-direction: column;
-
-  gap: 1rem;
+  gap: 0.9rem;
 `;
 
 export const MenuUl = styled.ul`

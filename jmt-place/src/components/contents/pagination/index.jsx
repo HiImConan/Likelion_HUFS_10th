@@ -1,16 +1,6 @@
 import { PaginationSection, ArrowButton, PageNumDiv } from "./styled";
-import {
-  usePageActions,
-  usePageValue,
-  useMenuValue,
-} from "../../../contexts/MenuContext";
 
-const Pagination = () => {
-  const [, nowPage] = useMenuValue();
-  const pageList = usePageValue();
-  const loadPage = usePageActions();
-  console.log(nowPage);
-  console.log(pageList);
+const Pagination = ({ nowPage, pageList, loadPage }) => {
   return (
     <PaginationSection>
       <ArrowButton

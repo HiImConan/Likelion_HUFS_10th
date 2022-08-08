@@ -11,8 +11,8 @@ export const MenuIcon = styled.div`
   color: blue;
   padding-right: 0.5rem;
   & > img {
-    width: 1.5rem;
-    height: 1.5rem;
+    width: 1.7rem;
+    height: 1.7rem;
   }
 `;
 
@@ -23,6 +23,7 @@ export const MenuName = styled.div`
 `;
 
 export const MenuCategory = styled.div`
-  font-size: 0.5rem;
+  padding: 0.3rem;
+  font-size: 0.6rem;
   color: gray;
 `;

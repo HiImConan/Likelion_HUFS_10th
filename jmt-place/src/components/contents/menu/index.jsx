@@ -4,7 +4,7 @@ import { useCartActions } from "../../../contexts/Context";
 
 import { MenuWrapper, MenuIcon, MenuName, MenuCategory } from "./styled";
 
-const Menu = ({ id, name, category }) => {
+const Menu = ({ name, category }) => {
   const actions = useCartActions();
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -20,8 +20,10 @@ const Menu = ({ id, name, category }) => {
       <MenuIcon>
         <img src={whatKindOfThisFoodIs(category)} alt={"img"} />
       </MenuIcon>
-      <MenuName>{name}</MenuName>
-      <MenuCategory>{category}</MenuCategory>
+      <div>
+        <MenuName>{name}</MenuName>
+        <MenuCategory>{category}</MenuCategory>
+      </div>
     </MenuWrapper>
   );
 };
